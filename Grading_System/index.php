@@ -3,36 +3,47 @@
 function gradingStudents($grade){
 
     $comment;
+    $provisional_grade = $grade;
     if($grade >= 38){
-        $provisional_grade;
 
-        if($grade % 5 != 0){
-            $provisional_grade = $grade;
-        } else{
+        while($grade % 5 != 0){
             $grade++;
-            
-            if(($provisional_grade - $grade) < 3){
-                $grade = $provisional_grade;
+        }
+        if($grade % 5 == 0){
+            if(($grade - $provisional_grade) < 3){
+                $provisional_grade = $grade;
             }
         }
     }
 
-    if($grade >= 40 && $grade < 60){
-        $comment = "Pass\n";
-    } elseif($grade >=60 && $grade < 70){
-        $comment = "Credit\n";
-    } elseif($grade >= 70 && $grade <= 100){
-        $comment = "Distinction\n";
-    }elseif($grade >= 0 && $grade < 40){
-        $comment = "Fail";
-    } else{
-        $comment = "Invalid grade";
-    }
+    switch ($provisional_grade) {
+        case $provisional_grade >100 || $provisional_grade < 0:
+            $comment = "Invalid grade.\n";
+            break;
+        
+        case $provisional_grade >69:
+            $comment = "Distinction\n";
+            break;
 
-    return $grade . " is a " . $comment ;
+        case $provisional_grade > 59:
+            $comment = "Credit\n";
+            break;
+
+        case $provisional_grade > 39:
+            $comment = "Pass\n";
+            break;
+
+        case $provisional_grade < 40 || $provisional_grade === 0:
+            $comment = "Fail";
+            break;
+
+        default:
+            $comment = "Unknown error.\n";
+            break;
+    }
+    return $provisional_grade;
 }
 
-// $grade = 38;
 
-echo gradingStudents(38);
+echo gradingStudents(0);
 ?>
