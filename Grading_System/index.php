@@ -1,49 +1,37 @@
 <?php
 
-function gradingStudents($grade){
+function gradingStudents($grades){
+    $n = $grades[0];
+    $grade_array= $grades;
+    array_shift($grade_array);
+    $rounded_grades = array();
+    if($n > 0 && $n <= 60){
+        foreach($grade_array as $grade){
+            if($grade <0 || $grade >100){
+                echo "Invalid grade!";
+                exit;
+            }
 
-    $comment;
-    $provisional_grade = $grade;
-    if($grade >= 38){
-
-        while($grade % 5 != 0){
-            $grade++;
-        }
-        if($grade % 5 == 0){
-            if(($grade - $provisional_grade) < 3){
-                $provisional_grade = $grade;
+            if($grade <=37){
+                $rounded_grades[]= $grade;
+            }
+            if($grade >37){
+                $prov_grade = $grade;
+            while($prov_grade % 5 !== 0){
+                $prov_grade++;
+            }
+            if($prov_grade - $grade < 3){
+                $grade = $prov_grade;
+            }
+            $rounded_grades[]=$grade;
             }
         }
     }
 
-    switch ($provisional_grade) {
-        case $provisional_grade >100 || $provisional_grade < 0:
-            $comment = "Invalid grade.\n";
-            break;
-        
-        case $provisional_grade >69:
-            $comment = "Distinction\n";
-            break;
-
-        case $provisional_grade > 59:
-            $comment = "Credit\n";
-            break;
-
-        case $provisional_grade > 39:
-            $comment = "Pass\n";
-            break;
-
-        case $provisional_grade < 40 || $provisional_grade === 0:
-            $comment = "Fail";
-            break;
-
-        default:
-            $comment = "Unknown error.\n";
-            break;
-    }
-    return $provisional_grade;
+    return $rounded_grades;
 }
 
-
-echo gradingStudents(0);
+$grades = [5,73,67,38,33];
+$result = gradingStudents($grades);
+print_r($result);
 ?>
