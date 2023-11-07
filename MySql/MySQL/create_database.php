@@ -13,7 +13,7 @@ if($conn->connect_error){
     die("Connection failed" . $conn->connect_error);
 }
 
-$sql = 'CREATE DATABASE MyDB;';
+$sql = 'CREATE DATABASE Task_Manager;';
 
 if($conn->query($sql) === TRUE){
     echo "Database created successfully";
